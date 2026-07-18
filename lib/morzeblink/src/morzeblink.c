@@ -8,8 +8,6 @@
 #define DOT 200    // dot, pause between symbols in one letter
 #define DASH 600   // 3 dots, pause between letters
 #define PAUSE 1400 // 7 dots, pause between words
-#define LETTER_LENGTH 4
-#define WORD_LENGTH 3
 int _symbolId;
 int _letterId;
 unsigned long _counter;
@@ -37,7 +35,7 @@ void MorzeBlinkTick(unsigned long deltaMillis)
 
     if (_ledState == LOW)
     {
-        _counter = *(_word + (_letterId * LETTER_LENGTH + _symbolId));
+        _counter = *(_word + (_letterId * MB_LETTER_LENGTH + _symbolId));
         _ledState = HIGH;
     }
     else
@@ -46,13 +44,13 @@ void MorzeBlinkTick(unsigned long deltaMillis)
         _ledState = LOW;
 
         _symbolId++;
-        if (_symbolId == LETTER_LENGTH || *(_word + (_letterId * LETTER_LENGTH + _symbolId)) == 0)
+        if (_symbolId == MB_LETTER_LENGTH || *(_word + (_letterId * MB_LETTER_LENGTH + _symbolId)) == 0)
         {
             _symbolId = 0;
             _letterId++;
             _counter = DASH;
 
-            if (_letterId == WORD_LENGTH)
+            if (_letterId == MB_WORD_LENGTH)
             {
                 _letterId = 0;
                 _counter = PAUSE;
