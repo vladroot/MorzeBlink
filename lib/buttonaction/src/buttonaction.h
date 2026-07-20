@@ -1,6 +1,8 @@
 #ifndef _BUTTONACTION_H_
 #define _BUTTONACTION_H_
 
-void InitButton(int ledPin, void (*EventAction)(int));
+typedef void (*CallbackEvent)(int);
+
+void InitButton(int ledPin, CallbackEvent callback);
 void ButtonTick(unsigned long deltaMillis);
 #endif

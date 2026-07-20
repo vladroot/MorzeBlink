@@ -4,13 +4,13 @@
 int _buttonPin;
 bool _buttonActionMade;
 
-void (*_eventAction)(int);
+CallbackEvent _callback;
 
-void InitButton(int buttonPin, void (*eventAction)(int))
+void InitButton(int buttonPin, CallbackEvent callback)
 {
     _buttonPin = buttonPin;
     _buttonActionMade = false;
-    _eventAction = eventAction;
+    _callback = callback;
     pinMode(buttonPin, INPUT);
 }
 
@@ -27,5 +27,5 @@ void ButtonTick(unsigned long deltaMillis)
         return;
 
     _buttonActionMade = true;
-    _eventAction(_buttonPin);
+    _callback(_buttonPin);
 }
