@@ -20,7 +20,10 @@ void MorzeBlinkStart(int ledPin, unsigned long *word)
     _ledState = LOW;
     _ledPin = ledPin;
     _word = word;
-    pinMode(_ledPin, OUTPUT);
+    _counter = 0;
+    _letterId = 0;
+    _symbolId = 0;
+    pinMode(ledPin, OUTPUT);
 }
 
 void MorzeBlinkTick(unsigned long deltaMillis)
