@@ -8,8 +8,8 @@ const unsigned long ASS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600}, {2
 const unsigned long SOS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 200, 200}, {600, 600, 600}, {200, 200, 200}};           // SOS
 const unsigned long LOL_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600, 200, 200}, {600, 600, 600}, {200, 600, 200, 200}}; // LOL
 
-const int ledPin = 2;
-const int buttonPin = 3;
+const int _ledPin = 2;
+const int _buttonPin = 3;
 
 int _wordId;
 
@@ -19,7 +19,7 @@ void setup()
 {
     currentMillis = millis();
     buttonCallback();
-    InitButton(buttonPin, &buttonCallback);
+    InitButton(_buttonPin, &buttonCallback);
 }
 
 void loop()
@@ -51,5 +51,5 @@ void buttonCallback()
     if (_wordId == 3)
         _wordId = 0;
 
-    MorzeBlinkStart(ledPin, word);
+    MorzeBlinkStart(_ledPin, word);
 }
