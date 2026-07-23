@@ -11,6 +11,7 @@ const unsigned long LOL_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600, 200
 const int _ledPin = 2;
 const int _buttonPin = 3;
 
+// need to refactor it so the list of words are updated automatically
 int _wordId;
 
 void buttonCallback();
