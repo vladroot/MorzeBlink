@@ -12,6 +12,7 @@ const int _ledPin = 2;
 const int _buttonPin = 3;
 
 // need to refactor it so the list of words are updated automatically
+// just to  test github availability
 int _wordId;
 
 void buttonCallback();
