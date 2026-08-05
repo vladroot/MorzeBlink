@@ -1,31 +1,49 @@
 #include <Arduino.h>
 #include "buttonaction.h"
 
-int _buttonPin;
-bool _buttonActionMade;
-
 CallbackEvent _callback;
 
-void InitButton(int buttonPin, CallbackEvent callback)
+Button *_lastButton;
+
+void AddButton(int buttonPin, CallbackEvent callback)
 {
-    _buttonPin = buttonPin;
-    _buttonActionMade = false;
-    _callback = callback;
+    Button *newButton = malloc(sizeof(*newButton));
+    newButton->buttonPin = buttonPin;
+    newButton->buttonActionMade = false;
+    newButton->previousButton = _lastButton;
+    newButton->callback = callback;
+    _lastButton = newButton;
     pinMode(buttonPin, INPUT);
 }
 
 void ButtonTick(unsigned long deltaMillis)
 {
-    int buttonState = digitalRead(_buttonPin);
-    if (buttonState == LOW)
+    Button *button = _lastButton;
+    while (button != NULL)
     {
-        _buttonActionMade = false;
-        return;
+        int buttonState = digitalRead(button->buttonPin);
+        if (buttonState == LOW)
+        {
+            button->buttonActionMade = false;
+            return;
+        }
+
+        if (button->buttonActionMade)
+            return;
+
+        button->buttonActionMade = true;
+        button->callback(button->buttonPin);
+
+        button = button->previousButton;
     }
+}
 
-    if (_buttonActionMade)
-        return;
-
-    _buttonActionMade = true;
-    _callback(_buttonPin);
+void FreeMemory()
+{
+    while (_lastButton != NULL)
+    {
+        Button *button = _lastButton;
+        _lastButton = _lastButton->previousButton;
+        free(button);
+    }
 }

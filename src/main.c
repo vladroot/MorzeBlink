@@ -2,7 +2,7 @@
 #include "morzeblink.h"
 #include "buttonaction.h"
 
-unsigned long currentMillis;
+unsigned long _currentMillis;
 
 const unsigned long ASS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600}, {200, 200, 200}, {200, 200, 200}};                // ASS
 const unsigned long SOS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 200, 200}, {600, 600, 600}, {200, 200, 200}};           // SOS
@@ -15,25 +15,26 @@ const int _buttonPin = 3;
 // just to  test github availability
 int _wordId;
 
-void buttonCallback();
+void CodeChange();
 
 void setup()
 {
-    currentMillis = millis();
-    buttonCallback();
-    InitButton(_buttonPin, &buttonCallback);
+    FreeMemory();
+    _currentMillis = millis();
+    CodeChange();
+    AddButton(_buttonPin, &CodeChange);
 }
 
 void loop()
 {
     unsigned long newMillis = millis();
-    unsigned long deltaMillis = newMillis - currentMillis;
-    currentMillis = newMillis;
+    unsigned long deltaMillis = newMillis - _currentMillis;
+    _currentMillis = newMillis;
     MorzeBlinkTick(deltaMillis);
     ButtonTick(deltaMillis);
 }
 
-void buttonCallback()
+void CodeChange()
 {
     unsigned long *word;
     switch (_wordId)
