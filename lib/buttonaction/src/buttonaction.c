@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include "buttonaction.h"
 
-CallbackEvent _callback;
-
-Button *_lastButton;
+static Button *_lastButton;
 
 void AddButton(int buttonPin, CallbackEvent callback)
 {
     Button *newButton = malloc(sizeof(*newButton));
+    if (newButton == NULL)
+        return;
     newButton->buttonPin = buttonPin;
     newButton->buttonActionMade = false;
     newButton->previousButton = _lastButton;
@@ -18,23 +18,21 @@ void AddButton(int buttonPin, CallbackEvent callback)
 
 void ButtonTick(unsigned long deltaMillis)
 {
-    Button *button = _lastButton;
-    while (button != NULL)
+    (void)deltaMillis; // no debouncing yet, the button is evaluated on every tick
+    for (Button *button = _lastButton; button != NULL; button = button->previousButton)
     {
         int buttonState = digitalRead(button->buttonPin);
         if (buttonState == LOW)
         {
             button->buttonActionMade = false;
-            return;
+            continue;
         }
 
         if (button->buttonActionMade)
-            return;
+            continue;
 
         button->buttonActionMade = true;
         button->callback(button->buttonPin);
-
-        button = button->previousButton;
     }
 }
 

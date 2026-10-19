@@ -3,13 +3,14 @@
 
 #define PAUSE (5000)
 
-int _optoLedPin;
+static int _optoLedPin;
 
-unsigned long _counter;
+static unsigned long _counter;
 
 void OptoInputInit(int ledPin)
 {
     _optoLedPin = ledPin;
+    _counter = 0;
     pinMode(ledPin, OUTPUT);
 }
 

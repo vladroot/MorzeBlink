@@ -4,17 +4,18 @@
 #include "optoinput.h"
 
 #define LED_PIN (2)
-unsigned long _currentMillis;
 
-const unsigned long ASS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600}, {200, 200, 200}, {200, 200, 200}};                // ASS
-const unsigned long SOS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 200, 200}, {600, 600, 600}, {200, 200, 200}};           // SOS
-const unsigned long LOL_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600, 200, 200}, {600, 600, 600}, {200, 600, 200, 200}}; // LOL
+static unsigned long _currentMillis;
 
-const int _buttonPin = 3;
+static const unsigned long ASS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600}, {200, 200, 200}, {200, 200, 200}};                // ASS
+static const unsigned long SOS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 200, 200}, {600, 600, 600}, {200, 200, 200}};           // SOS
+static const unsigned long LOL_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600, 200, 200}, {600, 600, 600}, {200, 600, 200, 200}}; // LOL
+
+static const int _buttonPin = 3;
 
 // need to refactor it so the list of words are updated automatically
 // just to  test github availability
-int _wordId;
+static int _wordId;
 
 void CodeChange();
 
@@ -40,17 +41,17 @@ void loop()
 
 void CodeChange()
 {
-    unsigned long *word;
+    const unsigned long *word;
     switch (_wordId)
     {
     case 1:
-        word = &ASS_WORD;
+        word = ASS_WORD[0];
         break;
     case 2:
-        word = &LOL_WORD;
+        word = LOL_WORD[0];
         break;
     default:
-        word = &SOS_WORD;
+        word = SOS_WORD[0];
         break;
     }
 

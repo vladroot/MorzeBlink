@@ -12,7 +12,7 @@ struct Button
     bool buttonActionMade;
 };
 
-void AddButton(int ledPin, CallbackEvent callback);
+void AddButton(int buttonPin, CallbackEvent callback);
 void ButtonTick(unsigned long deltaMillis);
 void FreeMemory();
 #endif

@@ -8,14 +8,14 @@
 #define DOT (200)    // dot, pause between symbols in one letter
 #define DASH (600)   // 3 dots, pause between letters
 #define PAUSE (1400) // 7 dots, pause between words
-int _symbolId;
-int _letterId;
-unsigned long _counter;
-int _ledPin;
-int _ledState;
-unsigned long *_word;
+static int _symbolId;
+static int _letterId;
+static unsigned long _counter;
+static int _ledPin;
+static int _ledState;
+static const unsigned long *_word;
 
-void MorzeBlinkStart(int ledPin, unsigned long *word)
+void MorzeBlinkStart(int ledPin, const unsigned long *word)
 {
     _ledState = LOW;
     _ledPin = ledPin;
@@ -24,6 +24,7 @@ void MorzeBlinkStart(int ledPin, unsigned long *word)
     _letterId = 0;
     _symbolId = 0;
     pinMode(ledPin, OUTPUT);
+    digitalWrite(ledPin, LOW);
 }
 
 void MorzeBlinkTick(unsigned long deltaMillis)
