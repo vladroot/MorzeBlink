@@ -5,9 +5,9 @@
 // pause between letters = dot * 3
 // pause between words = dot * 7
 
-#define DOT 200    // dot, pause between symbols in one letter
-#define DASH 600   // 3 dots, pause between letters
-#define PAUSE 1400 // 7 dots, pause between words
+#define DOT (200)    // dot, pause between symbols in one letter
+#define DASH (600)   // 3 dots, pause between letters
+#define PAUSE (1400) // 7 dots, pause between words
 int _symbolId;
 int _letterId;
 unsigned long _counter;
@@ -28,10 +28,10 @@ void MorzeBlinkStart(int ledPin, unsigned long *word)
 
 void MorzeBlinkTick(unsigned long deltaMillis)
 {
-    if (deltaMillis >= _counter)
-        _counter = 0;
-    else
+    if (deltaMillis < _counter)
         _counter -= deltaMillis;
+    else
+        _counter = 0;
 
     if (_counter != 0)
         return;

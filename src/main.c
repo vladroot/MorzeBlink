@@ -1,14 +1,15 @@
 #include <Arduino.h>
 #include "morzeblink.h"
 #include "buttonaction.h"
+#include "optoinput.h"
 
+#define LED_PIN (2)
 unsigned long _currentMillis;
 
 const unsigned long ASS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600}, {200, 200, 200}, {200, 200, 200}};                // ASS
 const unsigned long SOS_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 200, 200}, {600, 600, 600}, {200, 200, 200}};           // SOS
 const unsigned long LOL_WORD[MB_WORD_LENGTH][MB_LETTER_LENGTH] = {{200, 600, 200, 200}, {600, 600, 600}, {200, 600, 200, 200}}; // LOL
 
-const int _ledPin = 2;
 const int _buttonPin = 3;
 
 // need to refactor it so the list of words are updated automatically
@@ -21,6 +22,7 @@ void setup()
 {
     FreeMemory();
     _currentMillis = millis();
+    OptoInputInit(LED_PIN);
     CodeChange();
     AddButton(_buttonPin, &CodeChange);
 }
@@ -28,8 +30,10 @@ void setup()
 void loop()
 {
     unsigned long newMillis = millis();
-    unsigned long deltaMillis = newMillis - _currentMillis;
+    // make sure we can work indefinitely
+    unsigned long deltaMillis = newMillis > _currentMillis ? newMillis - _currentMillis : newMillis;
     _currentMillis = newMillis;
+    OptoInputTick(deltaMillis);
     MorzeBlinkTick(deltaMillis);
     ButtonTick(deltaMillis);
 }
@@ -54,5 +58,5 @@ void CodeChange()
     if (_wordId == 3)
         _wordId = 0;
 
-    MorzeBlinkStart(_ledPin, word);
+    MorzeBlinkStart(LED_BUILTIN, word);
 }
